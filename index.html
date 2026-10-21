@@ -202,12 +202,15 @@ img{display:block;max-width:100%}
   .map-link{font-size:0.42rem;padding:0.38rem 0.8rem}
 }
 
-/* Per-ceremony glass map buttons (v2, 21 Oct 2026): milky translucent glass, black text */
-#s-haldi .map-link,#s-mehndi .map-link,#s-wedding .map-link{-webkit-backdrop-filter:blur(14px) saturate(1.6);backdrop-filter:blur(14px) saturate(1.6);color:#111111!important;text-shadow:none;box-shadow:0 6px 18px rgba(60,40,0,0.18),inset 0 1px 0 rgba(255,255,255,0.65),inset 0 -1px 0 rgba(255,255,255,0.25)}
-#s-haldi .map-link{background:linear-gradient(135deg,rgba(255,205,60,0.45),rgba(255,255,255,0.38))!important;border:1px solid rgba(255,255,255,0.75)!important}
-#s-mehndi .map-link{background:linear-gradient(135deg,rgba(120,225,160,0.42),rgba(255,255,255,0.38))!important;border:1px solid rgba(255,255,255,0.75)!important}
-#s-wedding .map-link{background:linear-gradient(135deg,rgba(255,150,140,0.42),rgba(255,255,255,0.38))!important;border:1px solid rgba(255,255,255,0.75)!important}
-#s-haldi .map-link:hover,#s-mehndi .map-link:hover,#s-wedding .map-link:hover{color:#000000!important;filter:brightness(1.06)}
+/* Ceremony cards + glass map buttons (v3, 21 Oct 2026): card colour matches each ceremony, bold black button text */
+#s-mehndi .event-details{background:linear-gradient(160deg,rgba(26,62,40,0.90),rgba(13,38,24,0.94))!important;border-color:rgba(190,255,205,0.35)!important}
+#s-haldi .event-details{background:linear-gradient(160deg,rgba(128,78,0,0.90),rgba(86,52,0,0.94))!important;border-color:rgba(255,220,140,0.45)!important}
+#s-haldi .map-link,#s-mehndi .map-link,#s-wedding .map-link{-webkit-backdrop-filter:blur(14px) saturate(1.6);backdrop-filter:blur(14px) saturate(1.6);color:#111111!important;font-weight:700!important;font-size:0.58rem!important;letter-spacing:0.22em!important;padding:0.55rem 1.15rem!important;text-shadow:none;box-shadow:0 6px 18px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.7)}
+#s-haldi .map-link svg,#s-mehndi .map-link svg,#s-wedding .map-link svg{width:13px!important;height:13px!important}
+#s-haldi .map-link{background:linear-gradient(135deg,rgba(255,214,80,0.65),rgba(255,255,255,0.55))!important;border:1px solid rgba(255,255,255,0.85)!important}
+#s-mehndi .map-link{background:linear-gradient(135deg,rgba(150,235,180,0.62),rgba(255,255,255,0.55))!important;border:1px solid rgba(255,255,255,0.85)!important}
+#s-wedding .map-link{background:linear-gradient(135deg,rgba(255,170,160,0.62),rgba(255,255,255,0.55))!important;border:1px solid rgba(255,255,255,0.85)!important}
+#s-haldi .map-link:hover,#s-mehndi .map-link:hover,#s-wedding .map-link:hover{color:#000000!important;filter:brightness(1.07)}
 </style>
 </head>
 <body>
