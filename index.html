@@ -15,7 +15,7 @@ img{display:block;max-width:100%}
 
 /* PATTERN LAYERS */
 #bg-pattern-layer{
-  position:fixed;top:0;left:0;width:100%;height:100dvh;z-index:0;
+  position:fixed;top:0;left:0;width:100%;height:100vh;height:100lvh;z-index:0;
   overflow:hidden;
   pointer-events:none;}
 #bg-pattern-layer img{
@@ -569,10 +569,22 @@ function initSD(){
 }
 
 // Countdown
-var TGT=new Date('2026-11-24T21:00:00');
+var TGT=new Date('2026-11-24T21:00:00+05:30');
+var cdDone=false;
 function tick(){
   var d=TGT-Date.now();
-  if(d<=0)return;
+  if(d<=0){
+    if(!cdDone){
+      cdDone=true;
+      document.getElementById('cd-d').textContent='000';
+      document.getElementById('cd-h').textContent='00';
+      document.getElementById('cd-m').textContent='00';
+      document.getElementById('cd-s').textContent='00';
+      var cdt=document.querySelector('#s-cd .cd-title');
+      if(cdt)cdt.innerHTML='Just <em>Married</em>';
+    }
+    return;
+  }
   var dy=Math.floor(d/86400000),h=Math.floor(d%86400000/3600000),m=Math.floor(d%3600000/60000),s=Math.floor(d%60000/1000);
   document.getElementById('cd-d').textContent=String(dy).padStart(3,'0');
   document.getElementById('cd-h').textContent=String(h).padStart(2,'0');
