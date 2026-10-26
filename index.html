@@ -220,6 +220,9 @@ img{display:block;max-width:100%}
 #s-mehndi .map-link{background:linear-gradient(135deg,rgba(150,235,180,0.62),rgba(255,255,255,0.55))!important;border:1px solid rgba(255,255,255,0.85)!important}
 #s-wedding .map-link{background:linear-gradient(135deg,rgba(255,170,160,0.62),rgba(255,255,255,0.55))!important;border:1px solid rgba(255,255,255,0.85)!important}
 #s-haldi .map-link:hover,#s-mehndi .map-link:hover,#s-wedding .map-link:hover{color:#000000!important;filter:brightness(1.07)}
+#music-btn{position:fixed;right:14px;bottom:14px;z-index:9999;display:none;align-items:center;gap:6px;padding:10px 16px;border-radius:999px;border:1px solid rgba(255,255,255,0.85);background:linear-gradient(135deg,rgba(255,255,255,0.65),rgba(255,255,255,0.45));-webkit-backdrop-filter:blur(14px) saturate(1.6);backdrop-filter:blur(14px) saturate(1.6);color:#111111;font-weight:700;font-size:13px;letter-spacing:0.08em;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,0.25),inset 0 1px 0 rgba(255,255,255,0.7)}
+#music-btn.show{display:flex}
+#yt-player{position:fixed;right:0;bottom:0;width:1px;height:1px;opacity:0.01;pointer-events:none}
 </style>
 </head>
 <body>
@@ -479,6 +482,7 @@ function enterSite(){
     document.getElementById('main').classList.add('show');
     initReveal();
     initSD();
+    startMusic();
   },1900);
 }
 
@@ -601,6 +605,50 @@ function tick(){
   document.getElementById('cd-s').textContent=String(s).padStart(2,'0');
 }
 tick();setInterval(tick,1000);
+</script>
+<div id="yt-player"></div>
+<button id="music-btn" onclick="toggleMusic()" aria-label="Toggle wedding music">♪ <span id="music-label">Music On</span></button>
+<script>
+/* Wedding background music: "Mangal Rang" (Ramayana) via the official YouTube player.
+   Streams from YouTube (no audio file is hosted here). Starts on the "Open
+   Invitation" tap, loops, and the floating button mutes/unmutes it. */
+var ytPlayer=null,musicWanted=false;
+(function loadYT(){
+  var s=document.createElement('script');
+  s.src='https://www.youtube.com/iframe_api';
+  document.head.appendChild(s);
+})();
+function onYouTubeIframeAPIReady(){
+  ytPlayer=new YT.Player('yt-player',{
+    width:'1',height:'1',
+    videoId:'z_e1d5_VVfw',
+    playerVars:{autoplay:0,controls:0,loop:1,playlist:'z_e1d5_VVfw',modestbranding:1,rel:0,playsinline:1},
+    events:{onReady:function(){
+      ytPlayer.setVolume(50);
+      if(musicWanted){ ytPlayer.playVideo(); showMusicBtn(); }
+    }}
+  });
+}
+function showMusicBtn(){
+  var b=document.getElementById('music-btn');
+  if(b) b.classList.add('show');
+}
+function startMusic(){
+  musicWanted=true;
+  showMusicBtn();
+  if(ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
+}
+function toggleMusic(){
+  if(!ytPlayer || !ytPlayer.getPlayerState) return;
+  var label=document.getElementById('music-label');
+  if(ytPlayer.isMuted && ytPlayer.isMuted()){
+    ytPlayer.unMute();
+    if(label) label.textContent='Music On';
+  } else if(ytPlayer.mute){
+    ytPlayer.mute();
+    if(label) label.textContent='Muted';
+  }
+}
 </script>
 </body>
 </html>
