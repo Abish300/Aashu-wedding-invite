@@ -611,7 +611,8 @@ tick();setInterval(tick,1000);
 <script>
 /* Wedding background music: "Mangal Rang" (Ramayana) via the official YouTube player.
    Streams from YouTube (no audio file is hosted here). Starts on the "Open
-   Invitation" tap, loops, and the floating button mutes/unmutes it. */
+   Invitation" tap and loops ONLY the first 60 seconds (Arijit only, per
+   Abhishek: Shreya's part comes after). The floating button mutes/unmutes it. */
 var ytPlayer=null,musicWanted=false;
 (function loadYT(){
   var s=document.createElement('script');
@@ -622,10 +623,14 @@ function onYouTubeIframeAPIReady(){
   ytPlayer=new YT.Player('yt-player',{
     width:'1',height:'1',
     videoId:'z_e1d5_VVfw',
-    playerVars:{autoplay:0,controls:0,loop:1,playlist:'z_e1d5_VVfw',modestbranding:1,rel:0,playsinline:1},
+    playerVars:{autoplay:0,controls:0,loop:1,playlist:'z_e1d5_VVfw',start:0,end:60,modestbranding:1,rel:0,playsinline:1},
     events:{onReady:function(){
       ytPlayer.setVolume(50);
       if(musicWanted){ ytPlayer.playVideo(); showMusicBtn(); }
+    },onStateChange:function(e){
+      /* If the player ever reaches the segment end instead of looping
+         itself, restart the first 60 seconds. */
+      if(e.data===YT.PlayerState.ENDED){ ytPlayer.seekTo(0); ytPlayer.playVideo(); }
     }}
   });
 }
