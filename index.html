@@ -477,6 +477,10 @@ for(var i=0;i<45;i++)PS.push({x:Math.random()*2000,y:Math.random()*2000,r:Math.r
 })();
 
 function enterSite(){
+  /* Start the music HERE, inside the tap. iPhone/iPad block play() called
+     from setTimeout (the gesture is over by then) — that's why the song
+     never started on Apple devices. Android allows it, Apple doesn't. */
+  startMusic();
   var gs=document.getElementById('g-screen');
   gs.classList.add('exit');
   setTimeout(function(){
@@ -484,7 +488,6 @@ function enterSite(){
     document.getElementById('main').classList.add('show');
     initReveal();
     initSD();
-    startMusic();
   },1900);
 }
 
