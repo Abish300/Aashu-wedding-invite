@@ -646,6 +646,16 @@ function startMusic(){
 function toggleMusic(){
   if(!ytPlayer || !ytPlayer.getPlayerState) return;
   var label=document.getElementById('music-label');
+  var st=ytPlayer.getPlayerState();
+  /* iPad/iPhone Safari only allows play() inside a tap. If the song never
+     started (YouTube wasn't ready when "Open Invitation" was tapped), the
+     play call from onReady gets blocked — so this tap starts it instead. */
+  if(st!==YT.PlayerState.PLAYING){
+    if(ytPlayer.isMuted && ytPlayer.isMuted()) ytPlayer.unMute();
+    ytPlayer.playVideo();
+    if(label) label.textContent='Music On';
+    return;
+  }
   if(ytPlayer.isMuted && ytPlayer.isMuted()){
     ytPlayer.unMute();
     if(label) label.textContent='Music On';
