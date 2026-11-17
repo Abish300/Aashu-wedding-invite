@@ -611,61 +611,51 @@ function tick(){
 }
 tick();setInterval(tick,1000);
 </script>
-<div id="yt-player"></div>
+<audio id="wedding-audio" loop preload="auto" playsinline></audio>
 <button id="music-btn" onclick="toggleMusic()" aria-label="Toggle wedding music">♪ <span id="music-label">Music On</span></button>
 <script>
-/* Wedding background music: "Mangal Rang" (Ramayana) via the official YouTube player.
-   Streams from YouTube (no audio file is hosted here). Starts on the "Open
-   Invitation" tap and loops ONLY the first 60 seconds (Arijit only, per
-   Abhishek: Shreya's part comes after). The floating button mutes/unmutes it. */
-var ytPlayer=null,musicWanted=false;
-(function loadYT(){
-  var s=document.createElement('script');
-  s.src='https://www.youtube.com/iframe_api';
-  document.head.appendChild(s);
-})();
-function onYouTubeIframeAPIReady(){
-  ytPlayer=new YT.Player('yt-player',{
-    width:'1',height:'1',
-    videoId:'z_e1d5_VVfw',
-    playerVars:{autoplay:0,controls:0,loop:1,playlist:'z_e1d5_VVfw',start:0,end:60,modestbranding:1,rel:0,playsinline:1},
-    events:{onReady:function(){
-      ytPlayer.setVolume(50);
-      if(musicWanted){ ytPlayer.playVideo(); showMusicBtn(); }
-    },onStateChange:function(e){
-      /* If the player ever reaches the segment end instead of looping
-         itself, restart the first 60 seconds. */
-      if(e.data===YT.PlayerState.ENDED){ ytPlayer.seekTo(0); ytPlayer.playVideo(); }
-    }}
-  });
-}
+/* Wedding background music: the song file Abhishek sent (17 Nov 2026) — no
+   YouTube. The MP3 is stored here as base64 text (wedding-song.b64) because
+   the site's push tool only handles text files; it is decoded in the browser
+   to a blob as soon as the page loads. Starts on the "Open Invitation" tap
+   and loops. The floating button mutes/unmutes it. */
+var weddingAudio=document.getElementById('wedding-audio');
+weddingAudio.volume=0.5;
+var songReady=false;
+fetch('wedding-song.b64').then(function(r){return r.text();}).then(function(b64){
+  var bin=atob(b64.replace(/\s+/g,''));
+  var bytes=new Uint8Array(bin.length);
+  for(var i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
+  weddingAudio.src=URL.createObjectURL(new Blob([bytes],{type:'audio/mpeg'}));
+  songReady=true;
+}).catch(function(){});
 function showMusicBtn(){
   var b=document.getElementById('music-btn');
   if(b) b.classList.add('show');
 }
 function startMusic(){
-  musicWanted=true;
   showMusicBtn();
-  if(ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo();
+  /* Called synchronously inside the "Open Invitation" tap, so iOS allows it.
+     The song is fetched at page load, so it is ready by tap time. */
+  var p=weddingAudio.play();
+  if(p && p.catch) p.catch(function(){});
 }
 function toggleMusic(){
-  if(!ytPlayer || !ytPlayer.getPlayerState) return;
   var label=document.getElementById('music-label');
-  var st=ytPlayer.getPlayerState();
   /* iPad/iPhone Safari only allows play() inside a tap. If the song never
-     started (YouTube wasn't ready when "Open Invitation" was tapped), the
-     play call from onReady gets blocked — so this tap starts it instead. */
-  if(st!==YT.PlayerState.PLAYING){
-    if(ytPlayer.isMuted && ytPlayer.isMuted()) ytPlayer.unMute();
-    ytPlayer.playVideo();
+     started, this tap starts it instead. */
+  if(weddingAudio.paused){
+    weddingAudio.muted=false;
+    var p=weddingAudio.play();
+    if(p && p.catch) p.catch(function(){});
     if(label) label.textContent='Music On';
     return;
   }
-  if(ytPlayer.isMuted && ytPlayer.isMuted()){
-    ytPlayer.unMute();
+  if(weddingAudio.muted){
+    weddingAudio.muted=false;
     if(label) label.textContent='Music On';
-  } else if(ytPlayer.mute){
-    ytPlayer.mute();
+  } else {
+    weddingAudio.muted=true;
     if(label) label.textContent='Muted';
   }
 }
