@@ -307,7 +307,7 @@ img{display:block;max-width:100%}
   <div class="ci" style="padding:0 1.5rem">
     <p class="cd-title r">Until Our <em>Sacred Union</em></p>
     <div class="cd-box r d1"><div class="cd-row">
-      <div class="cdb"><span class="cdn" id="cd-d">000</span><span class="cdl">Days</span></div>
+      <div class="cdb"><span class="cdn" id="cd-d">00</span><span class="cdl">Days</span></div>
       <span class="cddot">·</span>
       <div class="cdb"><span class="cdn" id="cd-h">00</span><span class="cdl">Hours</span></div>
       <span class="cddot">·</span>
@@ -596,7 +596,7 @@ function tick(){
   if(d<=0){
     if(!cdDone){
       cdDone=true;
-      document.getElementById('cd-d').textContent='000';
+      document.getElementById('cd-d').textContent='00';
       document.getElementById('cd-h').textContent='00';
       document.getElementById('cd-m').textContent='00';
       document.getElementById('cd-s').textContent='00';
@@ -606,7 +606,7 @@ function tick(){
     return;
   }
   var dy=Math.floor(d/86400000),h=Math.floor(d%86400000/3600000),m=Math.floor(d%3600000/60000),s=Math.floor(d%60000/1000);
-  document.getElementById('cd-d').textContent=String(dy).padStart(3,'0');
+  document.getElementById('cd-d').textContent=String(dy).padStart(2,'0');
   document.getElementById('cd-h').textContent=String(h).padStart(2,'0');
   document.getElementById('cd-m').textContent=String(m).padStart(2,'0');
   document.getElementById('cd-s').textContent=String(s).padStart(2,'0');
