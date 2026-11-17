@@ -362,7 +362,7 @@ img{display:block;max-width:100%}
     <p class="t-invites r d1">You are cordially invited to the</p>
     <p class="t-ceremony r d2">Mehndi<br/>Ceremony</p>
     <div class="dbar r d3"><div class="dl"></div><span class="dt">23rd November 2026 · 6:30 PM · Panchkula</span><div class="dl"></div></div>
-    <div class="arch-frame r d4"><div class="arch-wrap"><img id="img-mehndi" src="https://i.imgur.com/DpeboaF.jpg" alt="Mehndi Ceremony"/></div><div class="arch-border"></div></div>
+    <div class="arch-frame r d4"><div class="arch-wrap"><img id="img-mehndi" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Mehndi Ceremony"/></div><div class="arch-border"></div></div>
     <p class="verse r d5">An evening to celebrate love, togetherness and all the happiness around us. With mehndi on our hands, music playing and our favourite people around, we can't wait to laugh, dance, celebrate and create memories with all of you.</p>
     <div class="event-details r d5">
       <p class="event-details-title">✦ &nbsp; Mehndi Ceremony &nbsp; ✦</p>
@@ -638,6 +638,17 @@ fetch('haldi.gif.b64').then(function(r){return r.text();}).then(function(b64){
   var bytes=new Uint8Array(bin.length);
   for(var i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
   var img=document.getElementById('img-haldi');
+  if(img) img.src=URL.createObjectURL(new Blob([bytes],{type:'image/gif'}));
+}).catch(function(){});
+/* Mehndi GIF (17 Nov 2026): the animated Mehndi illustration (bride in her
+   red dress, gap between umbrellas and people closed), stored as base64
+   text (mehndi.gif.b64) because the push tool only handles text files;
+   decoded in the browser to a blob as soon as the page loads. */
+fetch('mehndi.gif.b64').then(function(r){return r.text();}).then(function(b64){
+  var bin=atob(b64.replace(/\s+/g,''));
+  var bytes=new Uint8Array(bin.length);
+  for(var i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
+  var img=document.getElementById('img-mehndi');
   if(img) img.src=URL.createObjectURL(new Blob([bytes],{type:'image/gif'}));
 }).catch(function(){});
 function showMusicBtn(){
