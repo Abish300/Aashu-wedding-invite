@@ -668,8 +668,10 @@ fetch('wedding.gif.b64').then(function(r){return r.text();}).then(function(b64){
 /* Logo (17 Nov 2026): the colourful Aashu & Shubham logo
    (#ShubhamKi_Ash_HoGayi) in the countdown section, stored as base64 text
    (logo.b64) because the push tool only handles text files; decoded in the
-   browser to a blob as soon as the page loads. */
-fetch('logo.b64').then(function(r){return r.text();}).then(function(b64){
+   browser to a blob as soon as the page loads. The ?v=2 forces browsers
+   that cached the first (black-background) version to fetch the new
+   transparent one. */
+fetch('logo.b64?v=2').then(function(r){return r.text();}).then(function(b64){
   var bin=atob(b64.replace(/\s+/g,''));
   var bytes=new Uint8Array(bin.length);
   for(var i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
