@@ -93,6 +93,7 @@ img{display:block;max-width:100%}
 /* COVER */
 #s-cover{height:auto;padding:3rem 0 0;display:flex;flex-direction:column;align-items:center;}
 #s-cd{height:auto;padding:0 0 14rem;display:flex;flex-direction:column;align-items:center;text-align:center;}
+.cd-logo{display:block;margin:1.8rem auto 0;max-width:270px;width:72%;height:auto}
 #s-close{}
 .cover-names{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.5rem,6vw,5.5rem);color:#8B1A1A;line-height:1;letter-spacing:0.05em;text-shadow:0 1px 12px rgba(139,26,26,0.12);text-transform:uppercase;width:100%;text-align:center;display:block}
 .cover-amp{font-family:'Italianno',cursive;font-size:clamp(1.3rem,2.5vw,2.2rem);color:rgba(110,20,10,0.65);display:inline-block;line-height:1;text-shadow:0 0 20px rgba(180,80,30,0.1);transform:skewX(-20deg);}
@@ -318,6 +319,7 @@ img{display:block;max-width:100%}
       <span class="cd-eyebrow">A Sacred Celebration Awaits</span>
       Some moments become memories, some turn into stories we tell forever. As we get ready to begin a beautiful new chapter together, we'd love to have you by our side, sharing the laughter, love and little moments that make these days so special.
     </p>
+    <img id="img-logo" class="cd-logo r d4" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Aashu & Shubham"/>
   </div>
 </div>
 
@@ -662,6 +664,17 @@ fetch('wedding.gif.b64').then(function(r){return r.text();}).then(function(b64){
   for(var i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
   var img=document.getElementById('img-wedding');
   if(img) img.src=URL.createObjectURL(new Blob([bytes],{type:'image/gif'}));
+}).catch(function(){});
+/* Logo (17 Nov 2026): the colourful Aashu & Shubham logo
+   (#ShubhamKi_Ash_HoGayi) in the countdown section, stored as base64 text
+   (logo.b64) because the push tool only handles text files; decoded in the
+   browser to a blob as soon as the page loads. */
+fetch('logo.b64').then(function(r){return r.text();}).then(function(b64){
+  var bin=atob(b64.replace(/\s+/g,''));
+  var bytes=new Uint8Array(bin.length);
+  for(var i=0;i<bin.length;i++) bytes[i]=bin.charCodeAt(i);
+  var img=document.getElementById('img-logo');
+  if(img) img.src=URL.createObjectURL(new Blob([bytes],{type:'image/png'}));
 }).catch(function(){});
 function showMusicBtn(){
   var b=document.getElementById('music-btn');
